@@ -4,6 +4,9 @@ import { isAuthenticated } from '../../auth/auth.service';
 
 const router = express.Router();
 
+router.get('/start/:id', isAuthenticated(), controller.start);
+router.get('/stop/:id', isAuthenticated(), controller.stop);
+
 router.get('/', isAuthenticated(), controller.index);
 router.get('/:id', isAuthenticated(), controller.show);
 router.post('/', isAuthenticated(), controller.create);

@@ -61,14 +61,18 @@ function handleError(res, statusCode) {
 
 // Gets a list of Projects
 export function index(req, res) {
-    return Project.find().exec()
+    const userId = req.user._id;
+    const query = { user: userId };
+    return Project.find(query).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Gets a single Project from the DB
 export function show(req, res) {
-    return Project.findById(req.params.id).exec()
+    const userId = req.user._id;
+    const query = { _id: req.params.id, user: userId };
+    return Project.findById(query).exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));

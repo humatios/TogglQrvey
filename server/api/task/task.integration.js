@@ -119,6 +119,35 @@ describe('Task API:', function () {
         });
     });
 
+    // describe('GET /api/tasks/start/:id', function () {
+    //     let task;
+
+    //     beforeEach(function (done) {
+    //         request(app)
+    //             .get(`/api/tasks/start/${newTask._id}`)
+    //             .set('authorization', 'Bearer ' + token)
+    //             .expect(200)
+    //             .expect('Content-Type', /json/)
+    //             .end((err, res) => {
+    //                 if (err) {
+    //                     return done(err);
+    //                 }
+    //                 task = res.body;
+    //                 done();
+    //             });
+    //     });
+
+    //     afterEach(function () {
+    //         task = {};
+    //     });
+
+    //     it('should start the requested task', function () {
+    //         expect(task.time).to.be.instanceOf(Array);
+    //         expect(task.time.length).to.equal(1);
+    //         expect(task.isStarted).to.be.true;
+    //     });
+    // });
+
     describe('PUT /api/tasks/:id', function () {
         let updatedTask;
 

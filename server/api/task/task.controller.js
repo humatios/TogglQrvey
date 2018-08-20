@@ -55,20 +55,64 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
+        console.log(err);
         res.status(statusCode).send(err);
     };
 }
 
+export function start(req, res) {
+    const userId = req.user._id;
+    const query = { _id: req.params.id, user: userId };
+    return Task.findById(query).exec()
+        .then(handleEntityNotFound(res))
+        .then((entity) => {
+            if (entity.isStarted) return entity;
+
+            let data = {};
+            data.time = entity.time ? entity.time : [];
+            data.isStarted = entity.isStarted;
+            data.time.push({ start: new Date() });
+            data.isStarted = true;
+            return Task.update(query, data)
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function stop(req, res) {
+    const userId = req.user._id;
+    const query = { _id: req.params.id, user: userId };
+    return Task.findById(query).exec()
+        .then(handleEntityNotFound(res))
+        .then((entity) => {
+            if (!entity.isStarted) return entity;
+
+            let data = {};
+            const last = entity.time.length - 1;
+            data.time = entity.time ? entity.time : [];
+            data.isStarted = false;
+            data.time[last].finish = new Date();
+            data.time[last].elapsed = (data.time[last].finish - data.time[last].start) / 1000;
+            return Task.update(query, data)
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Gets a list of Tasks
 export function index(req, res) {
-    return Task.find().exec()
+    const userId = req.user._id;
+    const query = { user: userId };
+    return Task.find(query).exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
 // Gets a single Task from the DB
 export function show(req, res) {
-    return Task.findById(req.params.id).exec()
+    const userId = req.user._id;
+    const query = { _id: req.params.id, user: userId };
+    return Task.findById(query).exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -78,6 +122,12 @@ export function show(req, res) {
 export function create(req, res) {
     let data = req.body;
     data.user = req.user._id;
+    let isStarted = req.body.isStarted;
+    if (isStarted) {
+        data.isStarted = true;
+        data.time = [];
+        data.time.push({ start: new Date() })
+    }
     return Task.create(data)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));

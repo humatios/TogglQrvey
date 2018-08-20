@@ -1,31 +1,74 @@
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
-
 <div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" *ngFor="let thing of awesomeThings">
-        <li><a  [tooltip]="thing.info">
-          {{thing.name}}
-          <button type="button" class="close" (click)="deleteThing(thing)">&times;</button>
-        </a></li>
-      </ul>
+    <div class="row">
+        <div class="col-md-4">
+            <h1 class="page-header">Add new:</h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">Project</h1>
+                    <form class="project-form">
+                        <p class="input-group">
+                            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newProject.name" name="project_name">
+                            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="newProject.description" name="project_description">
+                            <button type="submit" class="btn btn-primary" (click)="addProject()">Add New project</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="page-header">Task</h1>
+                    <form class="project-form">
+                        <p class="input-group">
+                            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newTask.name" name="task_name">
+                            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="newTask.description" name="task_description">
+                            <input type="time" class="form-control without_ampm" placeholder="estimated" [(ngModel)]="newTask.estimated" name="task_time">
+                            <select class="form-control" [(ngModel)]="newTask.project">
+                                <option *ngFor="let project of awesomeProjects" [ngValue]="project._id">
+                                    {{project.name}}
+                                </option>
+                            </select>
+                            <button type="submit" class="btn btn-primary" (click)="addTask()">Add New task</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h1 class="page-header">Projects:</h1>
+            <accordion [closeOthers]=true>
+                <accordion-group *ngFor="let project of awesomeProjects" heading="{{project.name || 'No Name'}}">
+                    Description: {{project.description || 'No description'}}
+                </accordion-group>
+            </accordion>
+        </div>
+        <div class="col-md-4">
+            <h1 class="page-header">Task:</h1>
+            <accordion [closeOthers]=true>
+                <accordion-group *ngFor="let task of awesomeTasks">
+                    <button class="btn btn-link btn-block clearfix" accordion-heading>
+                        <div class="pull-left float-left">{{task.name || 'No title'}}</div>
+                        <span *ngIf="task.isStarted" class="badge badge-secondary float-right pull-right">Running</span>
+                        <span *ngIf="!task.isStarted" class="badge badge-secondary float-right pull-right">Total: {{task.total | date:'HH:mm:ss'}}</span>
+                    </button>
+                    <p>Description: {{task.description || 'No description'}}</p>
+                    <p>Estimated time: {{task.estimated || 'None'}}</p>
+                    <p>Registered time: {{task.total | date:'HH:mm:ss'}}</p>
+                    <button *ngIf="task.isStarted" type="button" class="close" (click)="stopTime(task._id)">
+                        <i class="fa fa-stop" aria-hidden="true"></i>
+                    </button>
+                    <button *ngIf="!task.isStarted" type="button" class="close" (click)="startTime(task._id)">
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                    </button>
+                    <div *ngIf="task.time.length">
+                        <p>
+                            <strong>Time: </strong>
+                        </p>
+                        <ul *ngFor="let time of task.time">
+                            <li *ngIf="time.elapsed">{{time.elapsed | date:'HH:mm:ss'}}</li>
+                        </ul>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
     </div>
-  </div>
-
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." [(ngModel)]="newThing" name="thing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" (click)="addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
 </div>

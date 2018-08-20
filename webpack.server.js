@@ -13,7 +13,9 @@ export const server = new WebpackDevServer(compiler, {
 
     hot: true,
 
-    historyApiFallback: true,
+    historyApiFallback: {
+        index: 'app.html'
+    },
 
     stats: {
         modules: false,
@@ -25,19 +27,19 @@ export const server = new WebpackDevServer(compiler, {
     noInfo: false,
 
     proxy: {
-      '/api': {
-        target: 'http://localhost:9000',
-        secure: false,
-      },
-      '/auth': {
-        target: 'http://localhost:9000',
-        secure: false,
-      },
-      '/primus': {
-        target: 'http://localhost:9000',
-        secure: false,
-        ws: true,
-      },
+        '/api': {
+            target: 'http://localhost:9000',
+            secure: false,
+        },
+        '/auth': {
+            target: 'http://localhost:9000',
+            secure: false,
+        },
+        '/primus': {
+            target: 'http://localhost:9000',
+            secure: false,
+            ws: true,
+        },
     },
 });
 

@@ -23,7 +23,8 @@ export function tokenGetter() {
     return localStorage.getItem('id_token');
 }
 
-const appRoutes: Routes = [{ path: '',
+const appRoutes: Routes = [{
+    path: '',
     redirectTo: '/home',
     pathMatch: 'full'
 }];
@@ -56,12 +57,12 @@ export class AppModule {
     }
 
     hmrOnInit(store) {
-        if(!store || !store.state) return;
+        if (!store || !store.state) return;
         console.log('HMR store', store);
         console.log('store.state.data:', store.state.data);
         // inject AppStore here and update it
         // this.AppStore.update(store.state)
-        if('restoreInputValues' in store) {
+        if ('restoreInputValues' in store) {
             store.restoreInputValues();
         }
         // change detection
@@ -76,7 +77,7 @@ export class AppModule {
         store.disposeOldHosts = createNewHosts(cmpLocation);
         // inject your AppStore and grab state then set it on store
         // var appState = this.AppStore.get()
-        store.state = {data: 'yolo'};
+        store.state = { data: 'yolo' };
         // store.state = Object.assign({}, appState)
         // save input values
         store.restoreInputValues = createInputTransfer();

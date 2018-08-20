@@ -11,7 +11,7 @@ const TaskSchema = new Schema({
     time: [{
         start: Date,
         finish: Date,
-        elapsed: Date,
+        elapsed: Number, //Elapsed time in seconds
     }],
     estimated: Date,
     isStarted: { type: Boolean, default: false },
