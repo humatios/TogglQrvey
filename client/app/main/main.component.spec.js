@@ -12,7 +12,7 @@ import { SocketService } from '../../components/socket/socket.service';
 import { SocketServiceStub } from '../../components/socket/socket.mock';
 import { MainComponent } from './main.component';
 
-describe('Component: MainComponent', function() {
+describe('Component: MainComponent', function () {
     let comp: MainComponent;
     let fixture: ComponentFixture<MainComponent>;
     let httpTestingController: HttpTestingController;
@@ -45,17 +45,5 @@ describe('Component: MainComponent', function() {
         fixture.detectChanges();
     }));
 
-    it('should attach a list of things to the controller', () => {
-        // `GET /api/things` should be made once
-        const req = httpTestingController.expectOne('/api/things');
-        expect(req.request.method).to.equal('GET');
 
-        // Respond with mock data
-        req.flush(mockThings);
-
-        // assert that there are no outstanding requests
-        httpTestingController.verify();
-
-        expect(comp.awesomeThings).to.equal(mockThings);
-    });
 });

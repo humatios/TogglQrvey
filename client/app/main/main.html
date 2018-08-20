@@ -23,7 +23,7 @@
                             <input type="text" class="form-control" placeholder="Description" [(ngModel)]="newTask.description" name="task_description">
                             <input type="time" class="form-control without_ampm" placeholder="estimated" [(ngModel)]="newTask.estimated" name="task_time">
                             <select class="form-control" [(ngModel)]="newTask.project">
-                                <option *ngFor="let project of awesomeProjects" [ngValue]="project._id">
+                                <option *ngFor="let project of awesomeProjects" [value]="project._id">
                                     {{project.name}}
                                 </option>
                             </select>
