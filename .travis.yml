@@ -11,6 +11,17 @@ env:
   - CXX=g++-4.8
 script:
   - gulp test
+notifications:
+  email:
+    recipients:
+    - humatios@hotmail.com
+    on_success: never
+    on_failure: always
+branches:
+  only:
+  - master
+  - develop
+  - test
 addons:
   apt:
     sources:
