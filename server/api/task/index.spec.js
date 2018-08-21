@@ -3,12 +3,13 @@
 const proxyquire = require('proxyquire').noPreserveCache();
 
 let taskCtrlStub = {
+    start: 'taskCtrl.start',
     index: 'taskCtrl.index',
     show: 'taskCtrl.show',
     create: 'taskCtrl.create',
     upsert: 'taskCtrl.upsert',
     patch: 'taskCtrl.patch',
-    destroy: 'taskCtrl.destroy'
+    destroy: 'taskCtrl.destroy',
 };
 
 let authServiceStub = {
@@ -53,6 +54,14 @@ describe('Task API Router:', function () {
         it('should route to task.controller.show', function () {
             expect(routerStub.get
                 .withArgs('/:id', 'authService.isAuthenticated', 'taskCtrl.show')
+            ).to.have.been.calledOnce;
+        });
+    });
+
+    describe('GET /api/tasks/start/:id', function () {
+        it('should route to task.controller.start', function () {
+            expect(routerStub.get
+                .withArgs('/start/:id', 'authService.isAuthenticated', 'taskCtrl.start')
             ).to.have.been.calledOnce;
         });
     });
