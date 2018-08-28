@@ -20,21 +20,21 @@ import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 var MongoStore = connectMongo(session);
 
-export default function(app) {
+export default function (app) {
     var env = process.env.NODE_ENV;
 
-    if(env === 'development' || env === 'test') {
+    if (env === 'development' || env === 'test') {
         app.use(express.static(path.join(config.root, '.tmp')));
         app.use(require('cors')());
     }
 
-    if(env === 'production') {
+    if (env === 'production') {
         app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
     }
 
     app.set('appPath', path.join(config.root, 'client'));
     app.use(express.static(app.get('appPath')));
-    if(env === 'production') {
+    if (env === 'production') {
         app.use('/', expressStaticGzip(app.get('appPath')));
     }
     app.use(morgan('dev'));
@@ -67,22 +67,20 @@ export default function(app) {
      * Lusca - express server security
      * https://github.com/krakenjs/lusca
      */
-    if(env !== 'test' && env !== 'development') {
+    if (env !== 'test' && env !== 'development') {
         app.use(lusca({
-            csrf: {
-                header: 'x-xsrf-token',
-            },
+            csrf: false,
             xframe: 'SAMEORIGIN',
             hsts: {
                 maxAge: 31536000, //1 year, in seconds
                 includeSubDomains: true,
                 preload: true
             },
-            xssProtection: true
+            xssProtection: false
         }));
     }
 
-    if(env === 'development' || env === 'test') {
+    if (env === 'development' || env === 'test') {
         app.use(errorHandler()); // Error handler - has to be last
     }
 }

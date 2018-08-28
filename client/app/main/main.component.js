@@ -26,12 +26,16 @@ export class MainComponent implements OnInit, OnDestroy {
     newProject = {};
 
     awesomeTask: Task[] = [];
+
+    isEstimated = false;
+    estimatedTime: Date = new Date();
     newTask = {};
 
     static parameters = [HttpClient, SocketService];
     constructor(http: HttpClient, socketService: SocketService) {
         this.http = http;
         this.SocketService = socketService;
+        this.estimatedTime.setHours(0, 0, 0, 0);
     }
 
     ngOnInit() {
@@ -89,6 +93,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     addTask() {
         if (this.newTask) {
+            if (this.isEstimated) this.newTask.estimated = this.estimatedTime
             return this.http.post('/api/tasks', this.newTask)
                 .subscribe(task => {
                     console.log('Added Task:', task);

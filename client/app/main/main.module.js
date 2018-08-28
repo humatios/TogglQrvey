@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { TooltipModule, AccordionModule } from 'ngx-bootstrap';
+import { TooltipModule, AccordionModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { MainComponent } from './main.component';
 import { SocketService } from '../../components/socket/socket.service';
@@ -22,6 +22,7 @@ export const ROUTES: Routes = [
         RouterModule.forChild(ROUTES),
         TooltipModule.forRoot(),
         AccordionModule.forRoot(),
+        TimepickerModule.forRoot(),
     ],
     declarations: [
         MainComponent,
