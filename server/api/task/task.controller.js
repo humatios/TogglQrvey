@@ -123,6 +123,12 @@ export function create(req, res) {
     let data = req.body;
     data.user = req.user._id;
     let isStarted = req.body.isStarted;
+    if (req.body.estimated) {
+        let isDated = req.body.estimated instanceof Date
+        if (!isDated) {
+            return res.status(400).json({ message: 'Estimated must be Date' })
+        }
+    }
     if (isStarted) {
         data.isStarted = true;
         data.time = [];
